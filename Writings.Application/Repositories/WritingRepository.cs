@@ -1,56 +1,82 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Writings.Application.Data;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
 
 namespace Writings.Application.Repositories
 {
-    public class WritingRepository : IWritingRepository
+    public class WritingRepository(WritingsContext context) : IWritingRepository
     {
-        private readonly List<Writing> _writings = [];
+        private readonly WritingsContext _context = context;
 
         public async Task<bool> CreateAsync(Writing writing)
         {
-            _writings.Add(writing);
-            return true;
+            await _context.Writings.AddAsync(writing);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
         public async Task<Writing?> GetByIdAsync(Guid id)
         {
-            var writing = _writings.SingleOrDefault(w => w.Id == id);
+            var writing = await _context.Writings.FindAsync(id);
             return writing;
         }
 
         public async Task<Writing?> GetBySlugAsync(string slug)
         {
-            var writing = _writings.SingleOrDefault(w => w.Slug == slug);
+            var writing = await _context.Writings.SingleOrDefaultAsync(w => w.Slug == slug);
             return writing; 
         }
 
         public async Task<IEnumerable<Writing>> GetAllAsync()
         {
-            return _writings.AsEnumerable();
+            return await _context.Writings.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year)
+        {
+            var allWritings = _context.Writings;
+
+            var filteredWritings = allWritings.Where(w => w.YearOfCompletion == year);
+
+            return await filteredWritings.ToListAsync();
         }
 
         public async Task<bool> UpdateAsync(Writing writing)
         {
-            var writingIndex = _writings.FindIndex(w => w.Id == writing.Id);
-            if (writingIndex == -1)
+            var exists = await _context.Writings.AnyAsync(w => w.Id == writing.Id);
+
+            if (exists is false)
             {
                 return false;
             }
 
-            _writings[writingIndex] = writing;
-            return true;
+            _context.Writings.Update(writing);
+
+            var result = await _context.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<bool> DeleteByIdAsync(Guid id)
         {
-            var removedCount = _writings.RemoveAll(w => w.Id == id);
-            return removedCount > 0;
+            var writing = await _context.Writings.SingleOrDefaultAsync(w => w.Id == id);
+
+            if (writing is null)
+            {
+                return false;
+            }
+
+            _context.Writings.Remove(writing);
+
+            var result = await _context.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }

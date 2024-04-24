@@ -15,7 +15,7 @@ namespace Writings.Api.Mappings
                 Body = request.Body,
                 Type = request.Type,
                 Tags = request.Tags,
-                YearOfUpload = request.YearOfUpload,
+                YearOfCompletion = request.YearOfCompletion,
                 UploadedWhen = DateTimeOffset.Now,
                 LastEdited = DateTimeOffset.Now
             };
@@ -30,7 +30,7 @@ namespace Writings.Api.Mappings
                 Body = request.Body,
                 Type = request.Type,
                 Tags = request.Tags,
-                YearOfUpload = request.YearOfUpload,
+                YearOfCompletion = request.YearOfCompletion,
                 UploadedWhen = DateTimeOffset.Now,
                 LastEdited = DateTimeOffset.Now
             };
@@ -46,7 +46,7 @@ namespace Writings.Api.Mappings
                 Body = writing.Body,
                 Type = writing.Type,
                 Tags = writing.Tags,
-                YearOfUpload = writing.YearOfUpload,
+                YearOfCompletion = writing.YearOfCompletion,
                 UploadedWhen = writing.UploadedWhen,
                 LastEdited = writing.LastEdited
             };

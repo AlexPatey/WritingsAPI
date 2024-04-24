@@ -12,7 +12,7 @@ namespace Writings.Contracts.Requests
         public required string Title { get; init; }
         public required string Body { get; init; }
         public required WritingTypeEnum Type { get; init; }
-        public required IEnumerable<string> Tags { get; init; } = Enumerable.Empty<string>();
-        public required int YearOfUpload { get; init; }
+        public required IList<string> Tags { get; init; } = new List<string>();
+        public required int? YearOfCompletion { get; init; }
     }
 }

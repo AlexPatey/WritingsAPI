@@ -15,15 +15,15 @@ namespace Writings.Application.Models
         public string Slug => GenerateSlug();
         public required string Body { get; init; }
         public required WritingTypeEnum Type { get; init; }
-        public required IEnumerable<string> Tags { get; init; } = Enumerable.Empty<string>();
-        public required int YearOfUpload { get; init; }
+        public required IList<string> Tags { get; init; } = new List<string>();
+        public required int? YearOfCompletion { get; init; }
         public required DateTimeOffset UploadedWhen { get; init; }
         public required DateTimeOffset LastEdited { get; init; }
 
         private string GenerateSlug()
         {
             var sluggedTitle = SlugRegex().Replace(Title, string.Empty).ToLower().Replace(" ", "-");
-            return $"{sluggedTitle}-{YearOfUpload}";
+            return $"{sluggedTitle}-{(YearOfCompletion is null ? "unspecified" : YearOfCompletion)}";
         }
 
         [GeneratedRegex("[^0-9A-Za-z _-]", RegexOptions.NonBacktracking, 5)]
