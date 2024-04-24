@@ -1,0 +1,6 @@
+@Writings.Api_HostAddress = http://localhost:5277
+
+GET {{Writings.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
