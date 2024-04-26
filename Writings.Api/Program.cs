@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
 
-builder.Services.AddDatabase();
+builder.Services.AddDatabase(builder.Configuration.GetConnectionString("WritingsContext")!);
 
 var app = builder.Build();
 

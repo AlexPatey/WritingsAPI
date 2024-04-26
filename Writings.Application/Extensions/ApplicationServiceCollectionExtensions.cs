@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,14 @@ namespace Writings.Application.Extensions
             return services;
         }
 
-        public static IServiceCollection AddDatabase(this IServiceCollection services)
+        public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<WritingsContext>();
+            services.AddDbContext<WritingsContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            },
+            ServiceLifetime.Scoped,
+            ServiceLifetime.Singleton);
             return services;
         }
     }
