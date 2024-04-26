@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Writings.Application.Data;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
+using Writings.Contracts.Requests;
 
 namespace Writings.Application.Repositories
 {
@@ -49,14 +50,20 @@ namespace Writings.Application.Repositories
 
         public async Task<bool> UpdateAsync(Writing writing)
         {
-            var exists = await _context.Writings.AnyAsync(w => w.Id == writing.Id);
+            var writingToUpdate = await _context.Writings.SingleOrDefaultAsync(w => w.Id == writing.Id);
 
-            if (exists is false)
+            if (writingToUpdate is null)
             {
                 return false;
             }
 
-            _context.Writings.Update(writing);
+            writingToUpdate.Title = writing.Title;
+            writingToUpdate.Body = writing.Body;
+            writingToUpdate.Type = writing.Type;
+            writingToUpdate.YearOfCompletion = writing.YearOfCompletion;
+            writingToUpdate.LastEdited = writing.LastEdited;
+
+            _context.Writings.Update(writingToUpdate);
 
             var result = await _context.SaveChangesAsync();
 

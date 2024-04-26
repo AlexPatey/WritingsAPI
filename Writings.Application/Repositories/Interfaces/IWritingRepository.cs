@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Writings.Application.Models;
+using Writings.Contracts.Requests;
 
 namespace Writings.Application.Repositories.Interfaces
 {

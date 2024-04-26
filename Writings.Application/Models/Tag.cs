@@ -11,5 +11,6 @@ namespace Writings.Application.Models
         public required Guid Id { get; init; }
         public required Writing Writing { get; init; }
         public required string TagName { get; init; }
+        public required DateTimeOffset CreatedWhen { get; init; }
     }
 }

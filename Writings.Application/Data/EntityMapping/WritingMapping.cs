@@ -30,7 +30,7 @@ namespace Writings.Application.Data.EntityMapping
 
             builder.Property(w => w.YearOfCompletion);
 
-            builder.Property(w => w.UploadedWhen)
+            builder.Property(w => w.CreatedWhen)
                 .IsRequired();
 
             builder.Property(w => w.LastEdited)

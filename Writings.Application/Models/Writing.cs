@@ -7,13 +7,13 @@ namespace Writings.Application.Models
     public partial class Writing
     {
         public required Guid Id { get; init; }
-        public required string Title { get; init; }
+        public required string Title { get; set; }
         public string Slug => GenerateSlug();
-        public required string Body { get; init; }
-        public required WritingTypeEnum Type { get; init; }
-        public required int? YearOfCompletion { get; init; }
-        public required DateTimeOffset UploadedWhen { get; init; }
-        public required DateTimeOffset LastEdited { get; init; }
+        public required string Body { get; set; }
+        public required WritingTypeEnum Type { get; set; }
+        public required int? YearOfCompletion { get; set; }
+        public DateTimeOffset CreatedWhen { get; init; }
+        public DateTimeOffset LastEdited { get; set; }
 
         [JsonIgnore]
         public ICollection<Tag> Tags { get; init; } = new HashSet<Tag>();
