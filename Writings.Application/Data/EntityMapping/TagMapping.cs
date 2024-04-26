@@ -18,11 +18,7 @@ namespace Writings.Application.Data.EntityMapping
             builder.Property(t => t.TagName)
                 .HasColumnType("varchar")
                 .HasMaxLength(255)
-                .IsRequired();
-
-            builder.HasOne(t => t.Writing)
-                .WithMany(w => w.Tags)
-                .HasPrincipalKey(w => w.Id);
+                .IsRequired();;
         }
     }
 }

@@ -16,12 +16,6 @@ builder.Services.AddDatabase();
 
 var app = builder.Build();
 
-//dirty hack
-var scope = app.Services.CreateScope();
-var context = scope.ServiceProvider.GetRequiredService<WritingsContext>();
-context.Database.EnsureDeleted();
-context.Database.EnsureCreated();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

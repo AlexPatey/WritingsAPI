@@ -61,7 +61,7 @@ namespace Writings.Application.Repositories
             writingToUpdate.Body = writing.Body;
             writingToUpdate.Type = writing.Type;
             writingToUpdate.YearOfCompletion = writing.YearOfCompletion;
-            writingToUpdate.LastEdited = writing.LastEdited;
+            writingToUpdate.LastEdited = DateTimeOffset.Now;
 
             _context.Writings.Update(writingToUpdate);
 

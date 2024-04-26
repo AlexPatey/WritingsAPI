@@ -16,9 +16,7 @@ namespace Writings.Api.Mappings
                 Title = request.Title,
                 Body = request.Body,
                 Type = request.Type,
-                YearOfCompletion = request.YearOfCompletion,
-                CreatedWhen = DateTimeOffset.Now,
-                LastEdited = DateTimeOffset.Now
+                YearOfCompletion = request.YearOfCompletion
             };
         }
 
@@ -30,8 +28,7 @@ namespace Writings.Api.Mappings
                 Title = request.Title,
                 Body = request.Body,
                 Type = request.Type,
-                YearOfCompletion = request.YearOfCompletion,
-                LastEdited = DateTimeOffset.Now
+                YearOfCompletion = request.YearOfCompletion
             };
         }
 
@@ -44,9 +41,7 @@ namespace Writings.Api.Mappings
                 Slug = writing.Slug,
                 Body = writing.Body,
                 Type = writing.Type,
-                YearOfCompletion = writing.YearOfCompletion,
-                CreatedWhen = writing.CreatedWhen,
-                LastEdited = writing.LastEdited
+                YearOfCompletion = writing.YearOfCompletion
             };
         }
 
@@ -69,7 +64,6 @@ namespace Writings.Api.Mappings
                 Id = Guid.NewGuid(),
                 TagName = request.TagName,
                 Writing = writing,
-                CreatedWhen = DateTimeOffset.Now
             };
         }
 

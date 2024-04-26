@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Writings.Application.Models;
+using Writings.Application.ValueGenerators;
 
 namespace Writings.Application.Data.EntityMapping
 {
@@ -28,12 +29,8 @@ namespace Writings.Application.Data.EntityMapping
             builder.Property(w => w.Type)
                 .IsRequired();
 
-            builder.Property(w => w.YearOfCompletion);
-
             builder.Property(w => w.CreatedWhen)
-                .IsRequired();
-
-            builder.Property(w => w.LastEdited)
+                .HasValueGenerator<CreatedWhenDateGenerator>()
                 .IsRequired();
         }
     }
