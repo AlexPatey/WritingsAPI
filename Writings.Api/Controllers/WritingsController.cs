@@ -18,7 +18,12 @@ namespace Writings.Api.Controllers
         {
             var writing = request.MapToWriting();
 
-            await _writingRepository.CreateAsync(writing);
+            var created = await _writingRepository.CreateAsync(writing);
+
+            if (!created)
+            {
+                return BadRequest();
+            }
 
             var response = writing.MapToResponse();
 

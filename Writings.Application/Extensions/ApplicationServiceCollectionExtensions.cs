@@ -15,6 +15,7 @@ namespace Writings.Application.Extensions
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IWritingRepository, WritingRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
             return services;
         }
 

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Writings.Contracts.Enums;
 
 namespace Writings.Application.Models
@@ -15,10 +11,12 @@ namespace Writings.Application.Models
         public string Slug => GenerateSlug();
         public required string Body { get; init; }
         public required WritingTypeEnum Type { get; init; }
-        public required IList<string> Tags { get; init; } = new List<string>();
         public required int? YearOfCompletion { get; init; }
         public required DateTimeOffset UploadedWhen { get; init; }
         public required DateTimeOffset LastEdited { get; init; }
+
+        [JsonIgnore]
+        public ICollection<Tag> Tags { get; init; } = new HashSet<Tag>();
 
         private string GenerateSlug()
         {

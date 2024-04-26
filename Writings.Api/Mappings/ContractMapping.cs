@@ -6,6 +6,8 @@ namespace Writings.Api.Mappings
 {
     public static class ContractMapping
     {
+        #region WritingMappings
+
         public static Writing MapToWriting(this CreateWritingRequest request)
         {
             return new Writing
@@ -14,7 +16,6 @@ namespace Writings.Api.Mappings
                 Title = request.Title,
                 Body = request.Body,
                 Type = request.Type,
-                Tags = request.Tags,
                 YearOfCompletion = request.YearOfCompletion,
                 UploadedWhen = DateTimeOffset.Now,
                 LastEdited = DateTimeOffset.Now
@@ -29,7 +30,6 @@ namespace Writings.Api.Mappings
                 Title = request.Title,
                 Body = request.Body,
                 Type = request.Type,
-                Tags = request.Tags,
                 YearOfCompletion = request.YearOfCompletion,
                 UploadedWhen = DateTimeOffset.Now,
                 LastEdited = DateTimeOffset.Now
@@ -45,7 +45,6 @@ namespace Writings.Api.Mappings
                 Slug = writing.Slug,
                 Body = writing.Body,
                 Type = writing.Type,
-                Tags = writing.Tags,
                 YearOfCompletion = writing.YearOfCompletion,
                 UploadedWhen = writing.UploadedWhen,
                 LastEdited = writing.LastEdited
@@ -59,5 +58,31 @@ namespace Writings.Api.Mappings
                 Items = writings.Select(MapToResponse)
             };
         }
+
+        #endregion
+
+        #region TagMappings
+
+        public static Tag MapToTag(this CreateTagRequest request, Writing writing)
+        {
+            return new Tag
+            {
+                Id = Guid.NewGuid(),
+                TagName = request.TagName,
+                Writing = writing
+            };
+        }
+
+        public static TagResponse MapToReponse(this Tag tag)
+        {
+            return new TagResponse
+            {
+                Id = tag.Id,
+                TagName = tag.TagName,
+                Writing = tag.Writing.MapToResponse()
+            };
+        }
+
+        #endregion
     }
 }

@@ -14,7 +14,6 @@ namespace Writings.Contracts.Responses
         public required string Slug { get; init; }
         public required string Body { get; init; }
         public required WritingTypeEnum Type { get; init; }
-        public required IEnumerable<string> Tags { get; init; } = Enumerable.Empty<string>();
         public required int? YearOfCompletion {  get; init; }
         public required DateTimeOffset UploadedWhen { get; init; }
         public required DateTimeOffset LastEdited { get; init; }
