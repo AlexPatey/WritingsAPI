@@ -2,23 +2,24 @@
 using Microsoft.AspNetCore.Mvc;
 using Writings.Api.Mappings;
 using Writings.Application.Repositories.Interfaces;
+using Writings.Application.Services.Interfaces;
 using Writings.Contracts.Requests;
 using Writings.Contracts.Responses;
 
 namespace Writings.Api.Controllers
 {
     [ApiController]
-    public class TagsController(IWritingRepository writingRepository, ITagRepository tagRepository) : ControllerBase
+    public class TagsController(IWritingService writingService, ITagService tagService) : ControllerBase
     {
-        private readonly IWritingRepository _writingRepository = writingRepository;
-        private readonly ITagRepository _tagRepository = tagRepository;
+        private readonly IWritingService _writingService = writingService;
+        private readonly ITagService _tagService = tagService;
 
         [HttpPost(ApiEndpoints.Tags.Create)]
         [ProducesResponseType(typeof(TagResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateTagRequest request)
         {
-            var writing = await _writingRepository.GetByIdAsync(request.WritingId);
+            var writing = await _writingService.GetByIdAsync(request.WritingId);
 
             if (writing is null)
             {
@@ -27,7 +28,7 @@ namespace Writings.Api.Controllers
 
             var tag = request.MapToTag(writing);
 
-            var created = await _tagRepository.CreateAsync(tag);
+            var created = await _tagService.CreateAsync(tag);
 
             if (!created)
             {
@@ -44,7 +45,7 @@ namespace Writings.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var tag = await _tagRepository.GetAsync(id);
+            var tag = await _tagService.GetAsync(id);
 
             if (tag is null)
             {
@@ -61,7 +62,7 @@ namespace Writings.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var deleted = await _tagRepository.DeleteAsync(id);
+            var deleted = await _tagService.DeleteAsync(id);
 
             if (!deleted)
             {

@@ -2,15 +2,16 @@
 using Writings.Api.Mappings;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
+using Writings.Application.Services.Interfaces;
 using Writings.Contracts.Requests;
 using Writings.Contracts.Responses;
 
 namespace Writings.Api.Controllers
 {
     [ApiController]
-    public class WritingsController(IWritingRepository writingRepository) : ControllerBase
+    public class WritingsController(IWritingService writingService) : ControllerBase
     {
-        private readonly IWritingRepository _writingRepository = writingRepository;
+        private readonly IWritingService _writingService = writingService;
 
         [HttpPost(ApiEndpoints.Writings.Create)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status201Created)]
@@ -18,7 +19,7 @@ namespace Writings.Api.Controllers
         {
             var writing = request.MapToWriting();
 
-            var created = await _writingRepository.CreateAsync(writing);
+            var created = await _writingService.CreateAsync(writing);
 
             if (!created)
             {
@@ -36,8 +37,8 @@ namespace Writings.Api.Controllers
         public async Task<IActionResult> Get([FromRoute] string idOrSlug)
         {
             var writing = Guid.TryParse(idOrSlug, out var id) ?
-                await _writingRepository.GetByIdAsync(id) :
-                await _writingRepository.GetBySlugAsync(idOrSlug);
+                await _writingService.GetByIdAsync(id) :
+                await _writingService.GetBySlugAsync(idOrSlug);
 
             if (writing is null)
             {
@@ -53,7 +54,7 @@ namespace Writings.Api.Controllers
         [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var writings = await _writingRepository.GetAllAsync();
+            var writings = await _writingService.GetAllAsync();
 
             var response = writings.MapToResponse();
 
@@ -64,7 +65,7 @@ namespace Writings.Api.Controllers
         [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllByYear([FromRoute] int year)
         {
-            var writings = await _writingRepository.GetAllByYearAsync(year);
+            var writings = await _writingService.GetAllByYearAsync(year);
 
             var response = writings.MapToResponse();
 
@@ -78,7 +79,7 @@ namespace Writings.Api.Controllers
         {
             var writing = request.MapToWriting(id);
 
-            var updated = await _writingRepository.UpdateAsync(writing);
+            var updated = await _writingService.UpdateAsync(writing);
 
             if (!updated)
             {
@@ -95,7 +96,7 @@ namespace Writings.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var deleted = await _writingRepository.DeleteByIdAsync(id);
+            var deleted = await _writingService.DeleteByIdAsync(id);
 
             if (!deleted)
             {
