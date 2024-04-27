@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Writings.Application.Data.EntityMapping;
+using Writings.Application.Interceptors;
 using Writings.Application.Models;
 
 namespace Writings.Application.Data
@@ -14,6 +15,11 @@ namespace Writings.Application.Data
         {
             modelBuilder.ApplyConfiguration(new WritingMapping());
             modelBuilder.ApplyConfiguration(new TagMapping());
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(new WritingsContextSaveChangesInterceptor());
         }
     }
 }

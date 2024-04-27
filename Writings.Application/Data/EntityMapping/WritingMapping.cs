@@ -29,9 +29,11 @@ namespace Writings.Application.Data.EntityMapping
             builder.Property(w => w.Type)
                 .IsRequired();
 
-            builder.Property(w => w.CreatedWhen)
+            builder.Property<DateTimeOffset>("CreatedWhen")
                 .HasValueGenerator<CreatedWhenDateGenerator>()
                 .IsRequired();
+
+            builder.Property<DateTimeOffset?>("LastEdited");
 
             builder.Property<bool>("Deleted")
                 .HasDefaultValue(false);

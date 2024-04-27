@@ -12,8 +12,6 @@ namespace Writings.Application.Models
         public required string Body { get; set; }
         public required WritingTypeEnum Type { get; set; }
         public required int? YearOfCompletion { get; set; }
-        public DateTimeOffset CreatedWhen { get; set; }
-        public DateTimeOffset? LastEdited { get; set; }
 
         [JsonIgnore]
         public ICollection<Tag> Tags { get; init; } = new HashSet<Tag>();

@@ -23,8 +23,17 @@ namespace Writings.Application.Repositories
 
         public async Task<Writing?> GetByIdAsync(Guid id)
         {
-            var writing = await _context.Writings.FindAsync(id);
-            return writing;
+            try
+            {
+                var writing = await _context.Writings.FindAsync(id);
+                return writing;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<Writing?> GetBySlugAsync(string slug)
@@ -60,7 +69,6 @@ namespace Writings.Application.Repositories
             writingToUpdate.Body = writing.Body;
             writingToUpdate.Type = writing.Type;
             writingToUpdate.YearOfCompletion = writing.YearOfCompletion;
-            writingToUpdate.LastEdited = DateTimeOffset.Now;
 
             _context.Writings.Update(writingToUpdate);
 

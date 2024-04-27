@@ -9,7 +9,7 @@ using Writings.Application.Models;
 
 namespace Writings.Application.Interceptors
 {
-    public class SaveChangesInterceptor : ISaveChangesInterceptor
+    public class WritingsContextSaveChangesInterceptor : ISaveChangesInterceptor
     {
         public InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
         {
@@ -23,16 +23,24 @@ namespace Writings.Application.Interceptors
             var deleteEntries = tracker.Entries<Writing>()
                 .Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Deleted);
 
-            foreach ( var entry in deleteEntries )
+            foreach (var entry in deleteEntries)
             {
                 entry.Property<bool>("Deleted").CurrentValue = true;
                 entry.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
+            var updatedEntries = tracker.Entries<Writing>()
+                .Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Modified);
+
+            foreach (var entry in updatedEntries)
+            {
+                entry.Property<DateTimeOffset?>("LastEdited").CurrentValue = DateTimeOffset.Now;
+            }
+
             return result;
         }
 
-        public ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextErrorEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = new CancellationToken())
+        public ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = new CancellationToken())
         {
             return ValueTask.FromResult(SavingChanges(eventData, result));
         }
