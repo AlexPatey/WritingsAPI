@@ -32,6 +32,11 @@ namespace Writings.Application.Data.EntityMapping
             builder.Property(w => w.CreatedWhen)
                 .HasValueGenerator<CreatedWhenDateGenerator>()
                 .IsRequired();
+
+            builder.Property<bool>("Deleted")
+                .HasDefaultValue(false);
+
+            builder.HasQueryFilter(w => EF.Property<bool>(w, "Deleted") == false);
         }
     }
 }

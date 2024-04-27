@@ -1,4 +1,6 @@
-﻿using Writings.Application.Models;
+﻿using Writings.Application.Enums;
+using Writings.Application.Models;
+using Writings.Contracts.Enums;
 using Writings.Contracts.Requests;
 using Writings.Contracts.Responses;
 
@@ -15,7 +17,7 @@ namespace Writings.Api.Mappings
                 Id = Guid.NewGuid(),
                 Title = request.Title,
                 Body = request.Body,
-                Type = request.Type,
+                Type = (Application.Enums.WritingTypeEnum)request.Type,
                 YearOfCompletion = request.YearOfCompletion
             };
         }
@@ -27,7 +29,7 @@ namespace Writings.Api.Mappings
                 Id = id,
                 Title = request.Title,
                 Body = request.Body,
-                Type = request.Type,
+                Type = (Application.Enums.WritingTypeEnum)request.Type,
                 YearOfCompletion = request.YearOfCompletion
             };
         }
@@ -40,7 +42,7 @@ namespace Writings.Api.Mappings
                 Title = writing.Title,
                 Slug = writing.Slug,
                 Body = writing.Body,
-                Type = writing.Type,
+                Type = (Contracts.Enums.WritingTypeEnum)writing.Type,
                 YearOfCompletion = writing.YearOfCompletion
             };
         }

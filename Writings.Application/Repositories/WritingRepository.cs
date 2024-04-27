@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Writings.Application.Data;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
-using Writings.Contracts.Requests;
 
 namespace Writings.Application.Repositories
 {

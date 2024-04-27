@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Writings.Contracts.Enums;
+using Writings.Application.Enums;
 
 namespace Writings.Application.Models
 {
