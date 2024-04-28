@@ -14,36 +14,36 @@ namespace Writings.Application.Repositories
     {
         private readonly WritingsContext _context = context;
 
-        public async Task<bool> CreateAsync(Writing writing)
+        public async Task<bool> CreateAsync(Writing writing, CancellationToken token = default)
         {
-            await _context.Writings.AddAsync(writing);
-            var result = await _context.SaveChangesAsync();
+            await _context.Writings.AddAsync(writing, token);
+            var result = await _context.SaveChangesAsync(token);
             return result > 0;
         }
 
-        public async Task<Writing?> GetByIdAsync(Guid id)
+        public async Task<Writing?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var writing = await _context.Writings.FindAsync(id);
+            var writing = await _context.Writings.FindAsync(id, token);
             return writing;
         }
 
-        public async Task<IEnumerable<Writing>> GetAllAsync()
+        public async Task<IEnumerable<Writing>> GetAllAsync(CancellationToken token = default)
         {
-            return await _context.Writings.ToListAsync();
+            return await _context.Writings.ToListAsync(token);
         }
 
-        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year)
+        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year, CancellationToken token = default)
         {
             var allWritings = _context.Writings;
 
             var filteredWritings = allWritings.Where(w => w.YearOfCompletion == year);
 
-            return await filteredWritings.ToListAsync();
+            return await filteredWritings.ToListAsync(token);
         }
 
-        public async Task<bool> UpdateAsync(Writing writing)
+        public async Task<bool> UpdateAsync(Writing writing, CancellationToken token = default)
         {
-            var exists = await _context.Writings.AnyAsync(w => w.Id == writing.Id);
+            var exists = await _context.Writings.AnyAsync(w => w.Id == writing.Id, token);
 
             if (!exists)
             {
@@ -52,14 +52,14 @@ namespace Writings.Application.Repositories
 
             _context.Writings.Update(writing);
 
-            var result = await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync(token);
 
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(Guid id)
+        public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
         {
-            var writing = await _context.Writings.SingleOrDefaultAsync(w => w.Id == id);
+            var writing = await _context.Writings.SingleOrDefaultAsync(w => w.Id == id, token);
 
             if (writing is null)
             {
@@ -68,7 +68,7 @@ namespace Writings.Application.Repositories
 
             _context.Writings.Remove(writing);
 
-            var result = await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync(token);
 
             return result > 0;
         }

@@ -15,36 +15,36 @@ namespace Writings.Application.Services
         private readonly IWritingRepository _writingRepository = writingRepository;
         private readonly IValidator<Writing> _writingValidator = writingValidator;
 
-        public async Task<bool> CreateAsync(Writing writing)
+        public async Task<bool> CreateAsync(Writing writing, CancellationToken token = default)
         {
-            await _writingValidator.ValidateAndThrowAsync(writing);
-            return await _writingRepository.CreateAsync(writing);
+            await _writingValidator.ValidateAndThrowAsync(writing, token);
+            return await _writingRepository.CreateAsync(writing, token);
         }
 
-        public async Task<IEnumerable<Writing>> GetAllAsync()
+        public async Task<IEnumerable<Writing>> GetAllAsync(CancellationToken token = default)
         {
-            return await _writingRepository.GetAllAsync();
+            return await _writingRepository.GetAllAsync(token);
         }
 
-        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year)
+        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year, CancellationToken token = default)
         {
-            return await _writingRepository.GetAllByYearAsync(year);
+            return await _writingRepository.GetAllByYearAsync(year, token);
         }
 
-        public async Task<Writing?> GetByIdAsync(Guid id)
+        public async Task<Writing?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            return await _writingRepository.GetByIdAsync(id);
+            return await _writingRepository.GetByIdAsync(id, token);
         }
 
-        public async Task<bool> UpdateAsync(Writing writing)
+        public async Task<bool> UpdateAsync(Writing writing, CancellationToken token = default)
         {
-            await _writingValidator.ValidateAndThrowAsync(writing);
-            return await _writingRepository.UpdateAsync(writing);
+            await _writingValidator.ValidateAndThrowAsync(writing, token);
+            return await _writingRepository.UpdateAsync(writing, token);
         }
 
-        public async Task<bool> DeleteByIdAsync(Guid id)
+        public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
         {
-            return await _writingRepository.DeleteByIdAsync(id);
+            return await _writingRepository.DeleteByIdAsync(id, token);
         }
     }
 }

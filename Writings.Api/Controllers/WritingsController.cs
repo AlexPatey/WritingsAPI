@@ -15,11 +15,11 @@ namespace Writings.Api.Controllers
 
         [HttpPost(ApiEndpoints.Writings.Create)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Create([FromBody] CreateWritingRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateWritingRequest request, CancellationToken token)
         {
             var writing = request.MapToWriting();
 
-            var created = await _writingService.CreateAsync(writing);
+            var created = await _writingService.CreateAsync(writing, token);
 
             if (!created)
             {
@@ -34,9 +34,9 @@ namespace Writings.Api.Controllers
         [HttpGet(ApiEndpoints.Writings.Get)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token)
         {
-            var writing = await _writingService.GetByIdAsync(id);
+            var writing = await _writingService.GetByIdAsync(id, token);
 
             if (writing is null)
             {
@@ -50,9 +50,9 @@ namespace Writings.Api.Controllers
 
         [HttpGet(ApiEndpoints.Writings.GetAll)]
         [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken token)
         {
-            var writings = await _writingService.GetAllAsync();
+            var writings = await _writingService.GetAllAsync(token);
 
             var response = writings.MapToResponse();
 
@@ -61,9 +61,9 @@ namespace Writings.Api.Controllers
 
         [HttpGet(ApiEndpoints.Writings.GetAllByYear)]
         [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllByYear([FromRoute] int year)
+        public async Task<IActionResult> GetAllByYear([FromRoute] int year, CancellationToken token)
         {
-            var writings = await _writingService.GetAllByYearAsync(year);
+            var writings = await _writingService.GetAllByYearAsync(year, token);
 
             var response = writings.MapToResponse();
 
@@ -73,11 +73,11 @@ namespace Writings.Api.Controllers
         [HttpPut(ApiEndpoints.Writings.Update)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateWritingRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateWritingRequest request, CancellationToken token)
         {
             var writing = request.MapToWriting(id);
 
-            var updated = await _writingService.UpdateAsync(writing);
+            var updated = await _writingService.UpdateAsync(writing, token);
 
             if (!updated)
             {
@@ -92,9 +92,9 @@ namespace Writings.Api.Controllers
         [HttpDelete(ApiEndpoints.Writings.Delete)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken token)
         {
-            var deleted = await _writingService.DeleteByIdAsync(id);
+            var deleted = await _writingService.DeleteByIdAsync(id, token);
 
             if (!deleted)
             {
