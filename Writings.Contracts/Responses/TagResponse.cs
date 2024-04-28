@@ -11,6 +11,5 @@ namespace Writings.Contracts.Responses
         public required Guid Id { get; init; }
         public required string TagName { get; init; }
         public required WritingResponse Writing { get; init; }
-        public required DateTimeOffset CreatedWhen { get; init; }
     }
 }

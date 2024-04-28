@@ -40,7 +40,6 @@ namespace Writings.Api.Mappings
             {
                 Id = writing.Id,
                 Title = writing.Title,
-                Slug = writing.Slug,
                 Body = writing.Body,
                 Type = (Contracts.Enums.WritingTypeEnum)writing.Type,
                 YearOfCompletion = writing.YearOfCompletion
@@ -75,8 +74,7 @@ namespace Writings.Api.Mappings
             {
                 Id = tag.Id,
                 TagName = tag.TagName,
-                Writing = tag.Writing.MapToResponse(),
-                CreatedWhen = tag.CreatedWhen
+                Writing = tag.Writing.MapToResponse()
             };
         }
 

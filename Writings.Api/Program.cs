@@ -1,3 +1,4 @@
+using Writings.Api.Mappings;
 using Writings.Application.Data;
 using Writings.Application.Extensions;
 
@@ -26,6 +27,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ValidationMappingMiddleware>();
 
 app.MapControllers();
 

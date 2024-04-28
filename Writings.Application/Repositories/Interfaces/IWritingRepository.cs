@@ -11,7 +11,6 @@ namespace Writings.Application.Repositories.Interfaces
     {
         Task<bool> CreateAsync(Writing writing);
         Task<Writing?> GetByIdAsync(Guid id);
-        Task<Writing?> GetBySlugAsync(string slug);
         Task<IEnumerable<Writing>> GetAllAsync();
         Task<IEnumerable<Writing>> GetAllByYearAsync(int year);
         Task<bool> UpdateAsync(Writing writing);

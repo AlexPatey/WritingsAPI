@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,14 @@ using Writings.Application.Services.Interfaces;
 
 namespace Writings.Application.Services
 {
-    public class WritingService(IWritingRepository writingRepository) : IWritingService
+    public class WritingService(IWritingRepository writingRepository, IValidator<Writing> writingValidator) : IWritingService
     {
         private readonly IWritingRepository _writingRepository = writingRepository;
+        private readonly IValidator<Writing> _writingValidator = writingValidator;
 
         public async Task<bool> CreateAsync(Writing writing)
         {
+            await _writingValidator.ValidateAndThrowAsync(writing);
             return await _writingRepository.CreateAsync(writing);
         }
 
@@ -33,13 +36,9 @@ namespace Writings.Application.Services
             return await _writingRepository.GetByIdAsync(id);
         }
 
-        public async Task<Writing?> GetBySlugAsync(string slug)
-        {
-            return await _writingRepository.GetBySlugAsync(slug);
-        }
-
         public async Task<bool> UpdateAsync(Writing writing)
         {
+            await _writingValidator.ValidateAndThrowAsync(writing);
             return await _writingRepository.UpdateAsync(writing);
         }
 

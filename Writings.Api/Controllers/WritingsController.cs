@@ -28,17 +28,15 @@ namespace Writings.Api.Controllers
 
             var response = writing.MapToResponse();
 
-            return CreatedAtAction(nameof(Get), new { idOrSlug = response.Id }, response);
+            return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
         }
 
         [HttpGet(ApiEndpoints.Writings.Get)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([FromRoute] string idOrSlug)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var writing = Guid.TryParse(idOrSlug, out var id) ?
-                await _writingService.GetByIdAsync(id) :
-                await _writingService.GetBySlugAsync(idOrSlug);
+            var writing = await _writingService.GetByIdAsync(id);
 
             if (writing is null)
             {

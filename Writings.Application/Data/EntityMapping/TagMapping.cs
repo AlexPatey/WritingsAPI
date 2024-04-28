@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Writings.Application.Models;
+using Writings.Application.ValueGenerators;
 
 namespace Writings.Application.Data.EntityMapping
 {
@@ -19,6 +20,10 @@ namespace Writings.Application.Data.EntityMapping
                 .HasColumnType("varchar")
                 .HasMaxLength(255)
                 .IsRequired();;
+
+            builder.Property<DateTimeOffset>("CreatedWhen")
+                .HasValueGenerator<CreatedWhenDateGenerator>()
+                .IsRequired();
         }
     }
 }

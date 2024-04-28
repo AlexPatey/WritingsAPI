@@ -23,23 +23,8 @@ namespace Writings.Application.Repositories
 
         public async Task<Writing?> GetByIdAsync(Guid id)
         {
-            try
-            {
-                var writing = await _context.Writings.FindAsync(id);
-                return writing;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-            
-        }
-
-        public async Task<Writing?> GetBySlugAsync(string slug)
-        {
-            var writing = await _context.Writings.SingleOrDefaultAsync(w => w.Slug == slug);
-            return writing; 
+            var writing = await _context.Writings.FindAsync(id);
+            return writing;
         }
 
         public async Task<IEnumerable<Writing>> GetAllAsync()
@@ -58,19 +43,14 @@ namespace Writings.Application.Repositories
 
         public async Task<bool> UpdateAsync(Writing writing)
         {
-            var writingToUpdate = await _context.Writings.SingleOrDefaultAsync(w => w.Id == writing.Id);
+            var exists = await _context.Writings.AnyAsync(w => w.Id == writing.Id);
 
-            if (writingToUpdate is null)
+            if (!exists)
             {
                 return false;
             }
 
-            writingToUpdate.Title = writing.Title;
-            writingToUpdate.Body = writing.Body;
-            writingToUpdate.Type = writing.Type;
-            writingToUpdate.YearOfCompletion = writing.YearOfCompletion;
-
-            _context.Writings.Update(writingToUpdate);
+            _context.Writings.Update(writing);
 
             var result = await _context.SaveChangesAsync();
 

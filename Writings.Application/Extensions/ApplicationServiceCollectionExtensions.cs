@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Writings.Application.Extensions
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IWritingRepository, WritingRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Scoped);
             return services;
         }
 
