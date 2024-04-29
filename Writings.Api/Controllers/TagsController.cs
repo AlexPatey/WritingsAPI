@@ -10,7 +10,6 @@ using Writings.Contracts.Responses;
 
 namespace Writings.Api.Controllers
 {
-    [Authorize]
     [ApiController]
     public class TagsController(IWritingService writingService, ITagService tagService) : ControllerBase
     {
