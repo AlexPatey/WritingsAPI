@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Writings.Api.Mappings;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
@@ -8,6 +9,7 @@ using Writings.Contracts.Responses;
 
 namespace Writings.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     public class WritingsController(IWritingService writingService) : ControllerBase
     {
