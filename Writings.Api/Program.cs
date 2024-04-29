@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Writings.Api.Constants;
 using Writings.Api.Mappings;
 using Writings.Application.Data;
 using Writings.Application.Extensions;
@@ -28,7 +29,16 @@ builder.Services.AddAuthentication(o =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy(AuthConstants.AdminUserPolicyName, p => 
+        p.RequireClaim(AuthConstants.AdminUserClaimName, "true"));
+
+    o.AddPolicy(AuthConstants.TrustedMemberPolicyName, 
+        p => p.RequireAssertion(h => 
+            h.User.HasClaim(m => m is { Type: AuthConstants.AdminUserClaimName, Value: "true" }) ||
+            h.User.HasClaim(m => m is { Type: AuthConstants.TrustedMemberClaimName, Value: "true"})));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

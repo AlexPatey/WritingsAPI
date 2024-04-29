@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Writings.Api.Constants;
 using Writings.Api.Mappings;
 using Writings.Application.Repositories.Interfaces;
 using Writings.Application.Services.Interfaces;
@@ -16,6 +17,7 @@ namespace Writings.Api.Controllers
         private readonly IWritingService _writingService = writingService;
         private readonly ITagService _tagService = tagService;
 
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Tags.Create)]
         [ProducesResponseType(typeof(TagResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -59,6 +61,7 @@ namespace Writings.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(ApiEndpoints.Tags.Delete)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

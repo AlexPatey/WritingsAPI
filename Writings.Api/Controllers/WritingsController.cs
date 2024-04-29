@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Writings.Api.Constants;
 using Writings.Api.Mappings;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
@@ -9,12 +10,12 @@ using Writings.Contracts.Responses;
 
 namespace Writings.Api.Controllers
 {
-    [Authorize]
     [ApiController]
     public class WritingsController(IWritingService writingService) : ControllerBase
     {
         private readonly IWritingService _writingService = writingService;
 
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Writings.Create)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> Create([FromBody] CreateWritingRequest request, CancellationToken token)
@@ -72,6 +73,7 @@ namespace Writings.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPut(ApiEndpoints.Writings.Update)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -91,6 +93,7 @@ namespace Writings.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(ApiEndpoints.Writings.Delete)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
