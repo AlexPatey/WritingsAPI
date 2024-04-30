@@ -13,6 +13,8 @@ namespace Writings.Application.Models
         public required WritingTypeEnum? Type { get; set; }
         public required int? YearOfCompletion { get; init; }
         public required Guid? TagId { get; init; }
+        public required string? SortField { get; init; }
+        public required SortOrder? SortOrder { get; init; }
         public Guid? UserId { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace Writings.Application.Repositories
 
             if (options.Title is not null)
             {
-                filteredWritings = filteredWritings.Where(w => w.Title.ToLower().Contains(options.Title));
+                filteredWritings = filteredWritings.Where(w => w.Title.Contains(options.Title, StringComparison.OrdinalIgnoreCase));
             }
 
             if (options.YearOfCompletion is not null)
@@ -49,6 +49,25 @@ namespace Writings.Application.Repositories
             if (options.TagId is not null)
             {
                 filteredWritings = filteredWritings.Where(w => w.Tags.Any(t => t.Id == options.TagId));
+            }
+
+            if (options.SortField is not null)
+            {
+                switch (options.SortField)
+                {
+                    case "title":
+                        filteredWritings = options.SortOrder is Enums.SortOrder.Ascending ? filteredWritings.OrderBy(w => w.Title) : 
+                            filteredWritings.OrderByDescending(w => w.Title);
+                        break;
+                    case "type":
+                        filteredWritings = options.SortOrder is Enums.SortOrder.Ascending ? filteredWritings.OrderBy(w => w.Type) : 
+                            filteredWritings.OrderByDescending(w => w.Type);
+                        break;
+                    case "yearofcompletion":
+                        filteredWritings = options.SortOrder is Enums.SortOrder.Ascending ? filteredWritings.OrderBy(w => w.YearOfCompletion) : 
+                            filteredWritings.OrderByDescending(w => w.YearOfCompletion);
+                        break;
+                }
             }
 
             return await filteredWritings.ToListAsync(token);

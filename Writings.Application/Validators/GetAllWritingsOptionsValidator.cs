@@ -10,6 +10,13 @@ namespace Writings.Application.Validators
 {
     public class GetAllWritingsOptionsValidator : AbstractValidator<GetAllWritingsOptions>
     {
+        private static readonly string[] AcceptableSortFields =
+        {
+            "title",
+            "type",
+            "yearofcompletion"
+        };
+
         public GetAllWritingsOptionsValidator()
         {
             RuleFor(o => o.Title)
@@ -19,6 +26,10 @@ namespace Writings.Application.Validators
             RuleFor(o => o.YearOfCompletion)
                 .Must(ValidateYearOfCompletion)
                 .WithMessage($"Year of completion must be less than or equal to {DateTimeOffset.Now.Year}");
+
+            RuleFor(o => o.SortField)
+                .Must(s => s is null || AcceptableSortFields.Contains(s, StringComparer.OrdinalIgnoreCase))
+                .WithMessage("You can only sort by 'title' or 'type' or 'yearofcompletion'");
         }
 
         private bool ValidateTitle(string? title)
@@ -31,14 +42,14 @@ namespace Writings.Application.Validators
             return title.Length <= 255;
         }
 
-        private bool ValidateYearOfCompletion(int? yearOfCompleteion)
+        private bool ValidateYearOfCompletion(int? yearOfCompletion)
         {
-            if (yearOfCompleteion is null)
+            if (yearOfCompletion is null)
             {
                 return true;
             }
 
-            return yearOfCompleteion <= DateTimeOffset.Now.Year;
+            return yearOfCompletion <= DateTimeOffset.Now.Year;
         }
     }
 }

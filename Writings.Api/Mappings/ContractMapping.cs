@@ -62,7 +62,10 @@ namespace Writings.Api.Mappings
                 Title = request.Title,
                 YearOfCompletion = request.YearOfCompletion,
                 Type = (Application.Enums.WritingTypeEnum?)request.Type,
-                TagId = request.TagId
+                TagId = request.TagId,
+                SortField = request.SortBy?.TrimStart('+', '-').Trim(),
+                SortOrder = request.SortBy is null ? SortOrder.Unsorted :
+                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
             };
         }
 
