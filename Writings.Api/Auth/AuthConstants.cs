@@ -1,4 +1,4 @@
-﻿namespace Writings.Api.Constants
+﻿namespace Writings.Api.Auth
 {
     public static class AuthConstants
     {

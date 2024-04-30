@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Writings.Api.Constants;
+using Writings.Api.Auth;
 using Writings.Api.Mappings;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
