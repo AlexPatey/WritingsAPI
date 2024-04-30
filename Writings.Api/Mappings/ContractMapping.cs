@@ -1,4 +1,5 @@
-﻿using Writings.Application.Enums;
+﻿using System.Reflection;
+using Writings.Application.Enums;
 using Writings.Application.Models;
 using Writings.Contracts.Enums;
 using Writings.Contracts.Requests;
@@ -52,6 +53,23 @@ namespace Writings.Api.Mappings
             {
                 Items = writings.Select(MapToResponse)
             };
+        }
+
+        public static GetAllWritingsOptions MapToOptions(this GetAllWritingsRequest request)
+        {
+            return new GetAllWritingsOptions
+            {
+                Title = request.Title,
+                YearOfCompletion = request.YearOfCompletion,
+                Type = (Application.Enums.WritingTypeEnum?)request.Type,
+                TagId = request.TagId
+            };
+        }
+
+        public static GetAllWritingsOptions WithUserId(this GetAllWritingsOptions options, Guid? userId)
+        {
+            options.UserId = userId;
+            return options;
         }
 
         #endregion

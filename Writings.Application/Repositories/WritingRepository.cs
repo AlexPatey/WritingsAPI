@@ -27,9 +27,31 @@ namespace Writings.Application.Repositories
             return writing;
         }
 
-        public async Task<IEnumerable<Writing>> GetAllAsync(CancellationToken token = default)
+        public async Task<IEnumerable<Writing>> GetAllAsync(GetAllWritingsOptions options, CancellationToken token = default)
         {
-            return await _context.Writings.ToListAsync(token);
+            var filteredWritings = _context.Writings.AsQueryable();
+
+            if (options.Title is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.Title.ToLower().Contains(options.Title));
+            }
+
+            if (options.YearOfCompletion is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.YearOfCompletion == options.YearOfCompletion);
+            }
+
+            if (options.Type is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.Type == options.Type);
+            }
+
+            if (options.TagId is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.Tags.Any(t => t.Id == options.TagId));
+            }
+
+            return await filteredWritings.ToListAsync(token);
         }
 
         public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year, CancellationToken token = default)

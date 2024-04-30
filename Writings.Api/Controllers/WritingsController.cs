@@ -53,9 +53,13 @@ namespace Writings.Api.Controllers
 
         [HttpGet(ApiEndpoints.Writings.GetAll)]
         [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll(CancellationToken token)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllWritingsRequest request, CancellationToken token)
         {
-            var writings = await _writingService.GetAllAsync(token);
+            var userId = HttpContext.GetUserId();
+
+            var options = request.MapToOptions().WithUserId(userId);
+
+            var writings = await _writingService.GetAllAsync(options, token);
 
             var response = writings.MapToResponse();
 

@@ -10,10 +10,11 @@ using Writings.Application.Services.Interfaces;
 
 namespace Writings.Application.Services
 {
-    public class WritingService(IWritingRepository writingRepository, IValidator<Writing> writingValidator) : IWritingService
+    public class WritingService(IWritingRepository writingRepository, IValidator<Writing> writingValidator, IValidator<GetAllWritingsOptions> writingOptionsValidator) : IWritingService
     {
         private readonly IWritingRepository _writingRepository = writingRepository;
         private readonly IValidator<Writing> _writingValidator = writingValidator;
+        private readonly IValidator<GetAllWritingsOptions> _writingOptionsValidator = writingOptionsValidator;
 
         public async Task<bool> CreateAsync(Writing writing, CancellationToken token = default)
         {
@@ -21,9 +22,10 @@ namespace Writings.Application.Services
             return await _writingRepository.CreateAsync(writing, token);
         }
 
-        public async Task<IEnumerable<Writing>> GetAllAsync(CancellationToken token = default)
+        public async Task<IEnumerable<Writing>> GetAllAsync(GetAllWritingsOptions options, CancellationToken token = default)
         {
-            return await _writingRepository.GetAllAsync(token);
+            await _writingOptionsValidator.ValidateAndThrowAsync(options, token);
+            return await _writingRepository.GetAllAsync(options, token);
         }
 
         public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year, CancellationToken token = default)
