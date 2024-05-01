@@ -7,7 +7,7 @@ using Writings.Contracts.Enums;
 
 namespace Writings.Contracts.Requests
 {
-    public class GetAllWritingsRequest
+    public class GetAllWritingsRequest : PagedRequest
     {
         public required string? Title { get; init; }
         public required WritingTypeEnum? Type { get; set; }

@@ -30,6 +30,17 @@ namespace Writings.Application.Validators
             RuleFor(o => o.SortField)
                 .Must(s => s is null || AcceptableSortFields.Contains(s, StringComparer.OrdinalIgnoreCase))
                 .WithMessage("You can only sort by 'title' or 'type' or 'yearofcompletion'");
+
+            RuleFor(o => o.Page)
+                .NotEmpty()
+                .GreaterThanOrEqualTo(1)
+                .WithMessage("Page must be greater than or equal to 1");
+
+            RuleFor(o => o.PageSize)
+                .NotEmpty()
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(25)
+                .WithMessage("Page Size must be greater than or equal to 1 and less than or equal to 25");
         }
 
         private bool ValidateTitle(string? title)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Writings.Application.Enums;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
 using Writings.Application.Services.Interfaces;
@@ -28,11 +29,6 @@ namespace Writings.Application.Services
             return await _writingRepository.GetAllAsync(options, token);
         }
 
-        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year, CancellationToken token = default)
-        {
-            return await _writingRepository.GetAllByYearAsync(year, token);
-        }
-
         public async Task<Writing?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return await _writingRepository.GetByIdAsync(id, token);
@@ -47,6 +43,11 @@ namespace Writings.Application.Services
         public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
         {
             return await _writingRepository.DeleteByIdAsync(id, token);
+        }
+
+        public async Task<int> GetCountAsync(string? title, WritingTypeEnum? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
+        {
+            return await _writingRepository.GetCountAsync(title, type, yearOfCompletion, tagId, token);
         }
     }
 }

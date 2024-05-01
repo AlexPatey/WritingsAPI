@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Writings.Application.Data;
+using Writings.Application.Enums;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
 
@@ -36,14 +38,14 @@ namespace Writings.Application.Repositories
                 filteredWritings = filteredWritings.Where(w => w.Title.Contains(options.Title, StringComparison.OrdinalIgnoreCase));
             }
 
-            if (options.YearOfCompletion is not null)
-            {
-                filteredWritings = filteredWritings.Where(w => w.YearOfCompletion == options.YearOfCompletion);
-            }
-
             if (options.Type is not null)
             {
                 filteredWritings = filteredWritings.Where(w => w.Type == options.Type);
+            }
+
+            if (options.YearOfCompletion is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.YearOfCompletion == options.YearOfCompletion);
             }
 
             if (options.TagId is not null)
@@ -70,14 +72,7 @@ namespace Writings.Application.Repositories
                 }
             }
 
-            return await filteredWritings.ToListAsync(token);
-        }
-
-        public async Task<IEnumerable<Writing>> GetAllByYearAsync(int year, CancellationToken token = default)
-        {
-            var allWritings = _context.Writings;
-
-            var filteredWritings = allWritings.Where(w => w.YearOfCompletion == year);
+            filteredWritings = filteredWritings.Skip((options.Page - 1) * options.PageSize).Take(options.PageSize);
 
             return await filteredWritings.ToListAsync(token);
         }
@@ -112,6 +107,33 @@ namespace Writings.Application.Repositories
             var result = await _context.SaveChangesAsync(token);
 
             return result > 0;
+        }
+
+        public async Task<int> GetCountAsync(string? title, WritingTypeEnum? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
+        {
+            var filteredWritings = _context.Writings.AsQueryable();
+
+            if (title is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (type is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.Type == type);
+            }
+
+            if (yearOfCompletion is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.YearOfCompletion == yearOfCompletion);
+            }
+
+            if (tagId is not null)
+            {
+                filteredWritings = filteredWritings.Where(w => w.Tags.Any(t => t.Id == tagId));
+            }
+
+            return await filteredWritings.CountAsync(token);
         }
     }
 }

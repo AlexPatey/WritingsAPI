@@ -11,12 +11,8 @@ namespace Writings.Application.Validators
 {
     public class WritingValidator : AbstractValidator<Writing>
     {
-        private readonly IWritingRepository _writingRepository;
-
-        public WritingValidator(IWritingRepository writingRepository)
+        public WritingValidator()
         {
-            _writingRepository = writingRepository;
-
             RuleFor(w => w.Id)
                 .NotEmpty();
 

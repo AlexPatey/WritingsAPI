@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Writings.Contracts.Responses
 {
-    public class WritingsResponse
+    public class WritingsResponse : PagedResponse<WritingResponse>
     {
-        public required IEnumerable<WritingResponse> Items { get; init; } = Enumerable.Empty<WritingResponse>();
+        
     }
 }
