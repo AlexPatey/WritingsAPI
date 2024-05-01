@@ -61,18 +61,9 @@ namespace Writings.Api.Controllers
 
             var writings = await _writingService.GetAllAsync(options, token);
 
-            var response = writings.MapToResponse();
+            var writingsCount = await _writingService.GetCountAsync(options.Title, options.Type, options.YearOfCompletion, options.TagId, token);
 
-            return Ok(response);
-        }
-
-        [HttpGet(ApiEndpoints.Writings.GetAllByYear)]
-        [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllByYear([FromRoute] int year, CancellationToken token)
-        {
-            var writings = await _writingService.GetAllByYearAsync(year, token);
-
-            var response = writings.MapToResponse();
+            var response = writings.MapToResponse(request.Page, request.PageSize, writingsCount);
 
             return Ok(response);
         }

@@ -47,11 +47,14 @@ namespace Writings.Api.Mappings
             };
         }
 
-        public static WritingsResponse MapToResponse(this IEnumerable<Writing> writings)
+        public static WritingsResponse MapToResponse(this IEnumerable<Writing> writings, int page, int pageSize, int totalCount)
         {
             return new WritingsResponse
             {
-                Items = writings.Select(MapToResponse)
+                Items = writings.Select(MapToResponse),
+                Page = page,
+                PageSize = pageSize,
+                Total = totalCount
             };
         }
 
@@ -65,7 +68,9 @@ namespace Writings.Api.Mappings
                 TagId = request.TagId,
                 SortField = request.SortBy?.TrimStart('+', '-').Trim(),
                 SortOrder = request.SortBy is null ? SortOrder.Unsorted :
-                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
+                    request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending,
+                Page = request.Page,
+                PageSize = request.PageSize
             };
         }
 
