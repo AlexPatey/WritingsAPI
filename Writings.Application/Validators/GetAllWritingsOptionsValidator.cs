@@ -38,8 +38,7 @@ namespace Writings.Application.Validators
 
             RuleFor(o => o.PageSize)
                 .NotEmpty()
-                .GreaterThanOrEqualTo(1)
-                .LessThanOrEqualTo(25)
+                .InclusiveBetween(1, 25)
                 .WithMessage("Page Size must be greater than or equal to 1 and less than or equal to 25");
         }
 
