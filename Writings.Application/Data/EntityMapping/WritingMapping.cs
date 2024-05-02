@@ -29,6 +29,9 @@ namespace Writings.Application.Data.EntityMapping
             builder.Property(w => w.Type)
                 .IsRequired();
 
+            builder.Property(w => w.ConcurrencyToken)
+                .IsRowVersion();
+
             builder.Property<DateTimeOffset>("CreatedWhen")
                 .HasValueGenerator<CreatedWhenDateGenerator>()
                 .IsRequired();

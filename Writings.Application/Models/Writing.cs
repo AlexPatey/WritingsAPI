@@ -14,6 +14,9 @@ namespace Writings.Application.Models
         public required int? YearOfCompletion { get; set; }
 
         [JsonIgnore]
+        public byte[] ConcurrencyToken { get; set; } = new byte[0];
+
+        [JsonIgnore]
         public ICollection<Tag> Tags { get; init; } = new HashSet<Tag>();
     }
 }
