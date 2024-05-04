@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Writings.Contracts.Responses;
+using Writings.Contracts.Responses.V1;
 
 namespace Writings.Api.Mappings
 {

@@ -1,15 +1,17 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Movies.Api.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using Writings.Api.Auth;
 using Writings.Api.Mappings;
+using Writings.Api.Swagger;
 using Writings.Application.Data;
 using Writings.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddAuthentication(o =>
 {
@@ -47,12 +49,14 @@ builder.Services.AddApiVersioning(o =>
     o.AssumeDefaultVersionWhenUnspecified = true;
     o.ReportApiVersions = true;
     o.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
-}).AddMvc();
+}).AddMvc().AddApiExplorer();
+
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+builder.Services.AddSwaggerGen(o => o.OperationFilter<SwaggerDefaultValues>());
 
 builder.Services.AddApplication();
 
@@ -60,11 +64,16 @@ builder.Services.AddDatabase(builder.Configuration.GetConnectionString("Writings
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(a =>
+    {
+        foreach (var description in app.DescribeApiVersions())
+        {
+            a.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+        }
+    });
 }
 
 app.UseHttpsRedirection();

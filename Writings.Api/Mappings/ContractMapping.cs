@@ -2,8 +2,8 @@
 using Writings.Application.Enums;
 using Writings.Application.Models;
 using Writings.Contracts.Enums;
-using Writings.Contracts.Requests;
-using Writings.Contracts.Responses;
+using Writings.Contracts.Requests.V1;
+using Writings.Contracts.Responses.V1;
 
 namespace Writings.Api.Mappings
 {

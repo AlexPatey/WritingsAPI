@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Writings.Contracts.Responses
+namespace Writings.Contracts.Responses.V1
 {
     public class ValidationFailureResponse
     {

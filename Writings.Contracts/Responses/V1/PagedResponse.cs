@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Writings.Contracts.Responses
+namespace Writings.Contracts.Responses.V1
 {
     public class PagedResponse<TResponse>
     {
         public required IEnumerable<TResponse> Items { get; init; } = Enumerable.Empty<TResponse>();
-        public required int Page {  get; init; }
+        public required int Page { get; init; }
         public required int PageSize { get; init; }
         public required int Total { get; init; }
-        public bool HasNextPage => Total > (Page * PageSize);
+        public bool HasNextPage => Total > Page * PageSize;
     }
 }

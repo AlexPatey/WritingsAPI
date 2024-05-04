@@ -6,10 +6,10 @@ using Writings.Api.Mappings;
 using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
 using Writings.Application.Services.Interfaces;
-using Writings.Contracts.Requests;
-using Writings.Contracts.Responses;
+using Writings.Contracts.Requests.V1;
+using Writings.Contracts.Responses.V1;
 
-namespace Writings.Api.Controllers
+namespace Writings.Api.Controllers.V1
 {
     [ApiController]
     [ApiVersion(1.0)]

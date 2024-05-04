@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Writings.Contracts.Enums;
 
-namespace Writings.Contracts.Requests
+namespace Writings.Contracts.Requests.V1
 {
     public class UpdateWritingRequest
     {
