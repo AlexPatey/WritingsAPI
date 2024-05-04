@@ -1,4 +1,5 @@
-﻿using Azure;
+﻿using Asp.Versioning;
+using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Writings.Api.Auth;
@@ -11,6 +12,7 @@ using Writings.Contracts.Responses;
 namespace Writings.Api.Controllers
 {
     [ApiController]
+    [ApiVersion(1.0)]
     public class TagsController(IWritingService writingService, ITagService tagService) : ControllerBase
     {
         private readonly IWritingService _writingService = writingService;

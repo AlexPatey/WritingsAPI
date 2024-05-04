@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Writings.Api.Auth;
 using Writings.Api.Mappings;
@@ -11,6 +12,7 @@ using Writings.Contracts.Responses;
 namespace Writings.Api.Controllers
 {
     [ApiController]
+    [ApiVersion(1.0)]
     public class WritingsController(IWritingService writingService) : ControllerBase
     {
         private readonly IWritingService _writingService = writingService;
