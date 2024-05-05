@@ -8,7 +8,6 @@ using System.Text;
 using Writings.Api.Auth;
 using Writings.Api.Mappings;
 using Writings.Api.Swagger;
-using Writings.Application.Data;
 using Writings.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +50,18 @@ builder.Services.AddApiVersioning(o =>
     o.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
 }).AddMvc().AddApiExplorer();
 
+//builder.Services.AddResponseCaching();
+
+builder.Services.AddOutputCache(o =>
+{
+    o.AddBasePolicy(b => b.Cache());
+    o.AddPolicy("WritingsCache", b =>
+        b.Cache()
+        .Expire(TimeSpan.FromMinutes(1))
+        .SetVaryByQuery(["title", "type", "yearofcompletion", "tagId", "sortBy", "page", "pageSize"])
+        .Tag("writings"));
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks();
@@ -82,7 +93,12 @@ app.MapHealthChecks("_health");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
+
+//app.UseResponseCaching();
+
+app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
