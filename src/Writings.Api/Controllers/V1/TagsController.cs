@@ -48,7 +48,6 @@ namespace Writings.Api.Controllers.V1
 
         [HttpGet(ApiEndpoints.Tags.Get)]
         [OutputCache]
-        //[ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
         [ProducesResponseType(typeof(TagResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id)

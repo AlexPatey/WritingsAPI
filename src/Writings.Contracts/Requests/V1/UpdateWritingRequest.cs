@@ -11,7 +11,7 @@ namespace Writings.Contracts.Requests.V1
     {
         public required string Title { get; init; }
         public required string Body { get; init; }
-        public required WritingTypeEnum Type { get; init; }
+        public required WritingType Type { get; init; }
         public required int? YearOfCompletion { get; init; }
     }
 }

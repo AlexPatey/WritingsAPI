@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,10 @@ namespace Writings.Application.Repositories
                         break;
                 }
             }
+            else
+            {
+                filteredWritings = filteredWritings.OrderByDescending(w => EF.Property<DateTimeOffset>(w, "CreatedWhen"));
+            }
 
             filteredWritings = filteredWritings.Skip((options.Page - 1) * options.PageSize).Take(options.PageSize);
 
@@ -109,7 +114,7 @@ namespace Writings.Application.Repositories
             return result > 0;
         }
 
-        public async Task<int> GetCountAsync(string? title, WritingTypeEnum? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
+        public async Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
         {
             var filteredWritings = _context.Writings.AsQueryable();
 

@@ -15,6 +15,6 @@ namespace Writings.Application.Services.Interfaces
         Task<IEnumerable<Writing>> GetAllAsync(GetAllWritingsOptions options, CancellationToken token = default);
         Task<bool> UpdateAsync(Writing writing, CancellationToken token = default);
         Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default);
-        Task<int> GetCountAsync(string? title, WritingTypeEnum? type, int? yearOfCompletion, Guid? tagId, CancellationToken token);
+        Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token);
     }
 }

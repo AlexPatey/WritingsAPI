@@ -18,7 +18,7 @@ namespace Writings.Api.Mappings
                 Id = Guid.NewGuid(),
                 Title = request.Title,
                 Body = request.Body,
-                Type = (Application.Enums.WritingTypeEnum)request.Type,
+                Type = (Application.Enums.WritingType)request.Type,
                 YearOfCompletion = request.YearOfCompletion
             };
         }
@@ -30,7 +30,7 @@ namespace Writings.Api.Mappings
                 Id = id,
                 Title = request.Title,
                 Body = request.Body,
-                Type = (Application.Enums.WritingTypeEnum)request.Type,
+                Type = (Application.Enums.WritingType)request.Type,
                 YearOfCompletion = request.YearOfCompletion
             };
         }
@@ -42,7 +42,7 @@ namespace Writings.Api.Mappings
                 Id = writing.Id,
                 Title = writing.Title,
                 Body = writing.Body,
-                Type = (Contracts.Enums.WritingTypeEnum)writing.Type,
+                Type = (Contracts.Enums.WritingType)writing.Type,
                 YearOfCompletion = writing.YearOfCompletion
             };
         }
@@ -64,7 +64,7 @@ namespace Writings.Api.Mappings
             {
                 Title = request.Title,
                 YearOfCompletion = request.YearOfCompletion,
-                Type = (Application.Enums.WritingTypeEnum?)request.Type,
+                Type = (Application.Enums.WritingType?)request.Type,
                 TagId = request.TagId,
                 SortField = request.SortBy?.TrimStart('+', '-').Trim(),
                 SortOrder = request.SortBy is null ? SortOrder.Unsorted :

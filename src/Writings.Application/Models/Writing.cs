@@ -10,7 +10,7 @@ namespace Writings.Application.Models
         public required Guid Id { get; init; }
         public required string Title { get; set; }
         public required string Body { get; set; }
-        public required WritingTypeEnum Type { get; set; }
+        public required WritingType Type { get; set; }
         public required int? YearOfCompletion { get; set; }
 
         [JsonIgnore]

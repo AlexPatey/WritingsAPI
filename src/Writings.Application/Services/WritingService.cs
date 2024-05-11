@@ -45,7 +45,7 @@ namespace Writings.Application.Services
             return await _writingRepository.DeleteByIdAsync(id, token);
         }
 
-        public async Task<int> GetCountAsync(string? title, WritingTypeEnum? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
+        public async Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
         {
             return await _writingRepository.GetCountAsync(title, type, yearOfCompletion, tagId, token);
         }

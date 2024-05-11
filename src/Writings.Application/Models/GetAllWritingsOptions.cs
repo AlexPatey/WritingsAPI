@@ -10,7 +10,7 @@ namespace Writings.Application.Models
     public class GetAllWritingsOptions
     {
         public required string? Title { get; init; }
-        public required WritingTypeEnum? Type { get; set; }
+        public required WritingType? Type { get; set; }
         public required int? YearOfCompletion { get; init; }
         public required Guid? TagId { get; init; }
         public required string? SortField { get; init; }

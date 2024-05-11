@@ -42,7 +42,6 @@ namespace Writings.Api.Controllers.V1
 
         [HttpGet(ApiEndpoints.Writings.Get)]
         [OutputCache]
-        //[ResponseCache(Duration = 30, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token)
@@ -61,7 +60,6 @@ namespace Writings.Api.Controllers.V1
 
         [HttpGet(ApiEndpoints.Writings.GetAll)]
         [OutputCache(PolicyName = "WritingsCache")]
-        //[ResponseCache(Duration = 30, VaryByQueryKeys = ["title", "type", "yearofcompletion", "tagId", "sortBy", "page", "pageSize"], VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
         [ProducesResponseType(typeof(WritingsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll([FromQuery] GetAllWritingsRequest request, CancellationToken token)
         {

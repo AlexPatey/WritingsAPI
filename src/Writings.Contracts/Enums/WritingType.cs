@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Writings.Application.Enums
+namespace Writings.Contracts.Enums
 {
-    public enum WritingTypeEnum
+    public enum WritingType
     {
         Notes,
         Review,
