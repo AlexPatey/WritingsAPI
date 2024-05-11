@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Writings.Api.Auth;
 using Writings.Api.Mappings;
+using Writings.Application.Models;
 using Writings.Application.Repositories.Interfaces;
 using Writings.Application.Services.Interfaces;
 using Writings.Contracts.Requests.V1;
@@ -14,10 +15,11 @@ namespace Writings.Api.Controllers.V1
 {
     [ApiController]
     [ApiVersion(1.0)]
-    public class TagsController(IWritingService writingService, ITagService tagService) : ControllerBase
+    public class TagsController(IWritingService writingService, ITagService tagService, ILogger logger) : ControllerBase
     {
         private readonly IWritingService _writingService = writingService;
         private readonly ITagService _tagService = tagService;
+        private readonly ILogger _logger = logger;
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Tags.Create)]
@@ -40,6 +42,8 @@ namespace Writings.Api.Controllers.V1
             {
                 return BadRequest();
             }
+
+            _logger.LogInformation("Tag with id {Id} created by user id {UserId}", tag.Id, HttpContext.GetUserId());
 
             var response = tag.MapToReponse();
 
@@ -76,6 +80,8 @@ namespace Writings.Api.Controllers.V1
             {
                 return NotFound();
             }
+
+            _logger.LogInformation("Tag with id {Id} deleted by user id {UserId}", id, HttpContext.GetUserId());
 
             return Ok();
         }
