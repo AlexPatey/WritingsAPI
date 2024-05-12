@@ -4,22 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Writings.Api.Auth;
 using Writings.Api.Mappings;
-using Writings.Application.Models;
-using Writings.Application.Repositories.Interfaces;
 using Writings.Application.Services.Interfaces;
 using Writings.Contracts.Requests.V1;
 using Writings.Contracts.Responses.V1;
-using static Writings.Api.ApiEndpoints;
+using Writings.Application.Extensions;
 
 namespace Writings.Api.Controllers.V1
 {
     [ApiController]
     [ApiVersion(1.0)]
-    public class WritingsController(IWritingService writingService, IOutputCacheStore outputCacheStore, ILogger logger) : ControllerBase
+    public class WritingsController(IWritingService writingService, IOutputCacheStore outputCacheStore, ILogger<WritingsController> logger) : ControllerBase
     {
         private readonly IWritingService _writingService = writingService;
         private readonly IOutputCacheStore _outputCacheStore = outputCacheStore;
-        private readonly ILogger _logger = logger;
+        private readonly ILogger<WritingsController> _logger = logger;
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Writings.Create)]
@@ -37,7 +35,7 @@ namespace Writings.Api.Controllers.V1
 
             await _outputCacheStore.EvictByTagAsync("writings", token);
 
-            _logger.LogInformation("Writing with id {Id} created by user id {UserId}", writing.Id, HttpContext.GetUserId());
+            _logger.LogWritingCreation(writing.Id, HttpContext.GetUserId());
 
             var response = writing.MapToResponse();
 
@@ -97,7 +95,7 @@ namespace Writings.Api.Controllers.V1
 
             await _outputCacheStore.EvictByTagAsync("writings", token);
 
-            _logger.LogInformation("Writing with id {Id} updated by user id {UserId}", writing.Id, HttpContext.GetUserId());
+            _logger.LogWritingUpdate(writing.Id, HttpContext.GetUserId());
 
             var response = writing.MapToResponse();
 
@@ -119,7 +117,7 @@ namespace Writings.Api.Controllers.V1
 
             await _outputCacheStore.EvictByTagAsync("writings", token);
 
-            _logger.LogInformation("Writing with id {Id} deleted by user id {UserId}", id, HttpContext.GetUserId());
+            _logger.LogWritingDeletion(id, HttpContext.GetUserId());
 
             return Ok();
         }

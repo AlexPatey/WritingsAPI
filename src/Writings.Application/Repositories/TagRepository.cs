@@ -14,25 +14,25 @@ namespace Writings.Application.Repositories
     {
         private readonly WritingsContext _context = writingsContext;
 
-        public async Task<bool> CreateAsync(Tag tag)
+        public async Task<bool> CreateAsync(Tag tag, CancellationToken token)
         {
-            await _context.Tags.AddAsync(tag);
-            var result = await _context.SaveChangesAsync();
+            await _context.Tags.AddAsync(tag, token);
+            var result = await _context.SaveChangesAsync(token);
             return result > 0;
         }
 
-        public async Task<Tag?> GetAsync(Guid id)
+        public async Task<Tag?> GetAsync(Guid id, CancellationToken token)
         {
             var tag = await _context.Tags
                 .Include(t => t.Writing)
-                .SingleOrDefaultAsync(t => t.Id == id);
+                .SingleOrDefaultAsync(t => t.Id == id, token);
 
             return tag;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken token)
         {
-            var tag = await _context.Tags.SingleOrDefaultAsync(w => w.Id == id);
+            var tag = await _context.Tags.SingleOrDefaultAsync(w => w.Id == id, token);
 
             if (tag is null)
             {
@@ -41,7 +41,7 @@ namespace Writings.Application.Repositories
 
             _context.Tags.Remove(tag);
 
-            var result = await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync(token);
 
             return result > 0;
         }

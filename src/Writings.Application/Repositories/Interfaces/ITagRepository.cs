@@ -9,8 +9,8 @@ namespace Writings.Application.Repositories.Interfaces
 {
     public interface ITagRepository
     {
-        Task<bool> CreateAsync(Tag tag);
-        Task<Tag?> GetAsync(Guid id);
-        Task<bool> DeleteAsync(Guid id);
+        Task<bool> CreateAsync(Tag tag, CancellationToken token);
+        Task<Tag?> GetAsync(Guid id, CancellationToken token);
+        Task<bool> DeleteAsync(Guid id, CancellationToken token);
     }
 }
