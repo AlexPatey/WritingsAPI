@@ -23,9 +23,9 @@ namespace Writings.Application.Services
                 await _writingValidator.ValidateAndThrowAsync(writing, token);
                 return await _writingRepository.CreateAsync(writing, token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogWritingCreationFailure();
+                _logger.LogWritingCreationFailure(ex.Message);
                 throw;
             }
         }
@@ -48,9 +48,9 @@ namespace Writings.Application.Services
                 await _writingValidator.ValidateAndThrowAsync(writing, token);
                 return await _writingRepository.UpdateAsync(writing, token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogWritingUpdateFailure();
+                _logger.LogWritingUpdateFailure(ex.Message);
                 throw;
             }
         }
@@ -61,9 +61,9 @@ namespace Writings.Application.Services
             {
                 return await _writingRepository.DeleteByIdAsync(id, token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogWritingDeletionFailure();
+                _logger.LogWritingDeletionFailure(ex.Message);
                 throw;
             }
         }

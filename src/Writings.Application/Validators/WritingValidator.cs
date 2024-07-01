@@ -17,7 +17,8 @@ namespace Writings.Application.Validators
                 .NotEmpty();
 
             RuleFor(w => w.Title)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(255);
 
             RuleFor(w => w.Body)
                 .NotEmpty();

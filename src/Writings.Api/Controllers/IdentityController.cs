@@ -24,12 +24,12 @@ namespace Writings.Api.Controllers
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
 
             var claims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Sub, request.Email),
-            new(JwtRegisteredClaimNames.Email, request.Email),
-            new("userid", request.UserId.ToString())
-        };
+            {
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Sub, request.Email),
+                new(JwtRegisteredClaimNames.Email, request.Email),
+                new("userid", request.UserId.ToString())
+            };
 
             foreach (var claimPair in request.CustomClaims)
             {

@@ -20,9 +20,9 @@ namespace Writings.Application.Services
                 await _tagValidator.ValidateAndThrowAsync(tag, token);
                 return await _tagRepository.CreateAsync(tag, token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogTagCreationFailure();
+                _logger.LogTagCreationFailure(ex.Message);
                 throw;
             }
             
@@ -39,9 +39,9 @@ namespace Writings.Application.Services
             {
                 return await _tagRepository.DeleteAsync(id, token);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogTagDeletionFailure();
+                _logger.LogTagDeletionFailure(ex.Message);
                 throw;
             }
         }

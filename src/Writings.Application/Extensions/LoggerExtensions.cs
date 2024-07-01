@@ -15,14 +15,14 @@ namespace Writings.Application.Extensions
         [LoggerMessage(Level = LogLevel.Information, EventId = 3, Message = "Writing id {WritingId} deleted by user id {UserId}")]
         public static partial void LogWritingDeletion(this ILogger logger, Guid writingId, Guid? userId);
 
-        [LoggerMessage(Level = LogLevel.Error, EventId = 6, Message = "Failed to create writing")]
-        public static partial void LogWritingCreationFailure(this ILogger logger);
+        [LoggerMessage(Level = LogLevel.Error, EventId = 6, Message = "Failed to create writing. Exception: {Exception}")]
+        public static partial void LogWritingCreationFailure(this ILogger logger, string exception);
 
-        [LoggerMessage(Level = LogLevel.Error, EventId = 7, Message = "Failed to update writing")]
-        public static partial void LogWritingUpdateFailure(this ILogger logger);
+        [LoggerMessage(Level = LogLevel.Error, EventId = 7, Message = "Failed to update writing. Exception: {Exception}")]
+        public static partial void LogWritingUpdateFailure(this ILogger logger, string exception);
 
-        [LoggerMessage(Level = LogLevel.Error, EventId = 8, Message = "Failed to delete writing")]
-        public static partial void LogWritingDeletionFailure(this ILogger logger);
+        [LoggerMessage(Level = LogLevel.Error, EventId = 8, Message = "Failed to delete writing. Exception: {Exception}")]
+        public static partial void LogWritingDeletionFailure(this ILogger logger, string exception);
 
         #endregion
 
@@ -34,11 +34,11 @@ namespace Writings.Application.Extensions
         [LoggerMessage(Level = LogLevel.Information, EventId = 5, Message = "Tag id {TagId} deleted by user id {UserId}")]
         public static partial void LogTagDeletion(this ILogger logger, Guid tagId, Guid? userId);
 
-        [LoggerMessage(Level = LogLevel.Error, EventId = 9, Message = "Failed to create tag")]
-        public static partial void LogTagCreationFailure(this ILogger logger);
+        [LoggerMessage(Level = LogLevel.Error, EventId = 9, Message = "Failed to create tag. Exception: {Exception}")]
+        public static partial void LogTagCreationFailure(this ILogger logger, string exception);
 
-        [LoggerMessage(Level = LogLevel.Error, EventId = 10, Message = "Failed to delete tag")]
-        public static partial void LogTagDeletionFailure(this ILogger logger);
+        [LoggerMessage(Level = LogLevel.Error, EventId = 10, Message = "Failed to delete tag. Exception: {Exception}")]
+        public static partial void LogTagDeletionFailure(this ILogger logger, string exception);
 
         #endregion
     }
