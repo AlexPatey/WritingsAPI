@@ -26,7 +26,7 @@ namespace Writings.Application.Repositories
 
         public async Task<Writing?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var writing = await _context.Writings.FindAsync(id, token);
+            var writing = await _context.Writings.FindAsync([id], cancellationToken: token);
             return writing;
         }
 
@@ -114,7 +114,7 @@ namespace Writings.Application.Repositories
             return result > 0;
         }
 
-        public async Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
+        public async Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token = default)
         {
             var filteredWritings = _context.Writings.AsQueryable();
 

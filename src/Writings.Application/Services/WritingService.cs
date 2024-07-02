@@ -68,7 +68,7 @@ namespace Writings.Application.Services
             }
         }
 
-        public async Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token)
+        public async Task<int> GetCountAsync(string? title, WritingType? type, int? yearOfCompletion, Guid? tagId, CancellationToken token = default)
         {
             return await _writingRepository.GetCountAsync(title, type, yearOfCompletion, tagId, token);
         }
