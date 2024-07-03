@@ -8,8 +8,7 @@ using NSubstitute;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using NSubstitute.ExceptionExtensions;
-using Writings.Application.Extensions;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Bogus;
 
 namespace Writings.Application.Tests.Unit
 {
@@ -20,6 +19,13 @@ namespace Writings.Application.Tests.Unit
         private readonly IValidator<Writing> _writingValidator = Substitute.For<IValidator<Writing>>();
         private readonly IValidator<GetAllWritingsOptions> _writingOptionsValidator = Substitute.For<IValidator<GetAllWritingsOptions>>();
         private readonly ILogger<WritingService> _logger = Substitute.For<ILogger<WritingService>>();
+
+        private readonly Faker<Writing> _writingGenerator = new Faker<Writing>()
+            .RuleFor(w => w.Id, faker => faker.Random.Guid())
+            .RuleFor(w => w.Title, faker => faker.Random.Word())
+            .RuleFor(w => w.Body, faker => faker.Random.Words(20))
+            .RuleFor(w => w.Type, WritingType.Notes)
+            .RuleFor(w => w.YearOfCompletion, faker => faker.Date.Past(1).Year);
 
         public WritingServiceTests()
         {
@@ -32,14 +38,7 @@ namespace Writings.Application.Tests.Unit
         public async Task CreateAsync_ShouldCreateWriting_WhenWritingRequestIsValid()
         {
             //Arrange
-            var writing = new Writing
-            {
-                Id = Guid.NewGuid(),
-                Title = "Title",
-                Body = "Body",
-                Type = WritingType.Notes,
-                YearOfCompletion = 2023
-            };
+            var writing = _writingGenerator.Generate();
 
             _writingsRepository.CreateAsync(writing).Returns(true);
 
@@ -65,19 +64,12 @@ namespace Writings.Application.Tests.Unit
         }
 
         [Fact(Timeout = 2000)]
-        public async Task CreateAsyncShouldLogMessageAndException_WhenExceptionIsThrown()
+        public async Task CreateAsync_ShouldLogMessageAndException_WhenExceptionIsThrown()
         {
             //Arrange
             var exception = new Exception();
 
-            var writing = new Writing
-            {
-                Id = Guid.NewGuid(),
-                Title = "Title",
-                Body = "Body",
-                Type = WritingType.Notes,
-                YearOfCompletion = 2023
-            };
+            var writing = _writingGenerator.Generate();
 
             _writingsRepository.CreateAsync(writing).Throws(exception);
 
@@ -123,18 +115,11 @@ namespace Writings.Application.Tests.Unit
         public async Task GetAllAsync_ShouldReturnWritings_WhenSomeWritingsExist()
         {
             //Arrange
-            var testWriting = new Writing
-            {
-                Id = Guid.NewGuid(),
-                Title = "Title",
-                Body = "Body",
-                Type = WritingType.Notes,
-                YearOfCompletion = 2023
-            };
+            var writing = _writingGenerator.Generate();
 
             var expectedWritings = new List<Writing>
             {
-                testWriting
+                writing
             };
 
             _writingsRepository.GetAllAsync(Arg.Any<GetAllWritingsOptions>()).Returns(expectedWritings);
@@ -167,16 +152,9 @@ namespace Writings.Application.Tests.Unit
         public async Task GetByIdAsync_ShouldReturnWriting_WhenIdIsValid()
         {
             //Arrange
-            var writingId = Guid.NewGuid();
+            var expectedWriting = _writingGenerator.Generate();
 
-            var expectedWriting = new Writing
-            {
-                Id = writingId,
-                Title = "Title",
-                Body = "Body",
-                Type = WritingType.Notes,
-                YearOfCompletion = 2023
-            };
+            var writingId = expectedWriting.Id;
 
             _writingsRepository.GetByIdAsync(writingId).Returns(expectedWriting);
 
@@ -212,14 +190,7 @@ namespace Writings.Application.Tests.Unit
             //Arrange
             var exception = new Exception();
 
-            var writing = new Writing
-            {
-                Id = Guid.NewGuid(),
-                Title = "Title",
-                Body = "Body",
-                Type = WritingType.Notes,
-                YearOfCompletion = 2023
-            };
+            var writing = _writingGenerator.Generate();
 
             _writingsRepository.UpdateAsync(writing).Throws(exception);
 

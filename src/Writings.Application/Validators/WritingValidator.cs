@@ -24,7 +24,7 @@ namespace Writings.Application.Validators
                 .NotEmpty();
 
             RuleFor(w => w.Type)
-                .NotEmpty();
+                .IsInEnum();
 
             RuleFor(w => w.YearOfCompletion)
                 .Must(ValidateYearOfCompletion)

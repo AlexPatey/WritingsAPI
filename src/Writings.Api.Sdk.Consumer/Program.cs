@@ -5,6 +5,8 @@ using Writings.Api.Sdk;
 using Writings.Api.Sdk.Consumer;
 using Writings.Contracts.Requests.V1;
 
+//Example code for how you might consume the Writings API
+
 var services = new ServiceCollection();
 
 services
