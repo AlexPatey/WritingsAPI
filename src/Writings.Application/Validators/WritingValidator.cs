@@ -31,14 +31,14 @@ namespace Writings.Application.Validators
                 .WithMessage($"Year of completion must be less than or equal to {DateTimeOffset.Now.Year}");
         }
 
-        private bool ValidateYearOfCompletion(int? yearOfCompleteion)
+        private bool ValidateYearOfCompletion(int? yearOfCompletion)
         {
-            if (yearOfCompleteion is null)
+            if (yearOfCompletion is null)
             {
                 return true;
             }
 
-            return yearOfCompleteion <= DateTimeOffset.Now.Year;
+            return yearOfCompletion <= DateTimeOffset.Now.Year;
         }
     }
 }
