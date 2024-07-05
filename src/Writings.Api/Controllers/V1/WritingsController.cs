@@ -22,6 +22,7 @@ namespace Writings.Api.Controllers.V1
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Writings.Create)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Create([FromBody] CreateWritingRequest request, CancellationToken token)
         {
             var writing = request.MapToWriting();
@@ -82,6 +83,7 @@ namespace Writings.Api.Controllers.V1
         [HttpPut(ApiEndpoints.Writings.Update)]
         [ProducesResponseType(typeof(WritingResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateWritingRequest request, CancellationToken token)
         {
             var writing = request.MapToWriting(id);
@@ -106,6 +108,7 @@ namespace Writings.Api.Controllers.V1
         [HttpDelete(ApiEndpoints.Writings.Delete)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken token)
         {
             var deleted = await _writingService.DeleteByIdAsync(id, token);

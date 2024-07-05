@@ -84,14 +84,19 @@ namespace Writings.Application.Repositories
 
         public async Task<bool> UpdateAsync(Writing writing, CancellationToken token = default)
         {
-            var exists = await _context.Writings.AnyAsync(w => w.Id == writing.Id, token);
+            var writingToUpdate = await _context.Writings.SingleOrDefaultAsync(w => w.Id == writing.Id, token);
 
-            if (!exists)
+            if (writingToUpdate is null)
             {
                 return false;
             }
 
-            _context.Writings.Update(writing);
+            writingToUpdate.Title = writing.Title;
+            writingToUpdate.Body = writing.Body;
+            writingToUpdate.Type = writing.Type;
+            writingToUpdate.YearOfCompletion = writing.YearOfCompletion;
+
+            _context.Writings.Update(writingToUpdate);
 
             var result = await _context.SaveChangesAsync(token);
 
