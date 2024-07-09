@@ -34,7 +34,7 @@ namespace Writings.Api.Tests.Integration.WritingsController
                 Email = "test@email.com",
                 CustomClaims = new Dictionary<string, object>
                 {
-                    { "admin", true },
+                    { "admin", false },
                     { "trusted_member", true }
                 }
             };
@@ -90,6 +90,23 @@ namespace Writings.Api.Tests.Integration.WritingsController
 
         public async Task DisposeAsync()
         {
+            var tokenGenerationRequest = new TokenGenerationRequest
+            {
+                UserId = Guid.NewGuid(),
+                Email = "test@email.com",
+                CustomClaims = new Dictionary<string, object>
+                {
+                    { "admin", false },
+                    { "trusted_member", true }
+                }
+            };
+
+            var tokenResponse = await _httpClient.PostAsJsonAsync("token", tokenGenerationRequest);
+            var token = await tokenResponse.Content.ReadAsStringAsync();
+
+            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
             foreach (var createdId in _createdIds)
             {
                 await _httpClient.DeleteAsync($"api/writings/{createdId}");
