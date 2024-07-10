@@ -10,6 +10,12 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- script: pwd
+  displayName: 'what directory are we in?'
+
+- script: ls -la
+  displayName: 'what files are in this folder?'
+
 - script: dotnet build .\src\Writings.Api\Writings.Api.csproj
   displayName: 'dotnet-build'
   # workingDirectory: $(solutionDir)
