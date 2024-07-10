@@ -7,7 +7,7 @@ trigger:
 - main
 
 variables:
-  solutionDir: 'src\Writings.Api'
+  solutionDir: 'src/Writings.Api'
 
 pool:
   vmImage: ubuntu-latest
@@ -19,6 +19,6 @@ steps:
 - script: ls -la
   displayName: 'what files are in this folder?'
 
-- script: dotnet build .\src\Writings.Api\Writings.Api.csproj
+- script: dotnet build 
   displayName: 'dotnet-build'
   workingDirectory: $(solutionDir)
