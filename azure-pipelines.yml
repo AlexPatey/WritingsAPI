@@ -10,6 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: dotnet build
+- script: dotnet build Writings.Api
   displayName: 'dotnet-build'
   # workingDirectory: $(solutionDir)
