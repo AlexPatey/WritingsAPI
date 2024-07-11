@@ -8,6 +8,7 @@ trigger:
 
 variables:
   solutionDir: 'src/Writings.Api'
+  testSolutionDir: 'test/Writings.Application.Tests.Unit'
 
 pool:
   vmImage: ubuntu-latest
@@ -22,6 +23,12 @@ steps:
 - script: dotnet build 
   displayName: 'dotnet-build'
   workingDirectory: $(solutionDir)
+
+- task: DotNetCoreCLI@2
+  displayName: 'run unit tests'
+  inputs:
+    command: 'test'
+    workingDirectory: $(testSolutionDir)
 
 - script: dotnet publish -o $(build.artifactStagingDirectory) 
   displayName: 'dotnet publish -o $(build.artifactStagingDirectory) '
